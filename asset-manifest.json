@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/crm-frontend/static/css/main.6a8a541e.chunk.css",
-    "main.js": "/crm-frontend/static/js/main.0333f1e5.chunk.js",
-    "main.js.map": "/crm-frontend/static/js/main.0333f1e5.chunk.js.map",
+    "main.js": "/crm-frontend/static/js/main.bd89766e.chunk.js",
+    "main.js.map": "/crm-frontend/static/js/main.bd89766e.chunk.js.map",
     "runtime-main.js": "/crm-frontend/static/js/runtime-main.5fccee74.js",
     "runtime-main.js.map": "/crm-frontend/static/js/runtime-main.5fccee74.js.map",
     "static/css/2.b1efaf19.chunk.css": "/crm-frontend/static/css/2.b1efaf19.chunk.css",
@@ -51,6 +51,6 @@
     "static/css/2.b1efaf19.chunk.css",
     "static/js/2.3781c0b2.chunk.js",
     "static/css/main.6a8a541e.chunk.css",
-    "static/js/main.0333f1e5.chunk.js"
+    "static/js/main.bd89766e.chunk.js"
   ]
 }
