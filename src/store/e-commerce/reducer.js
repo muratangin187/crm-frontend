@@ -3,6 +3,8 @@ import {
   GET_CART_DATA_SUCCESS,
   GET_CUSTOMERS_FAIL,
   GET_CUSTOMERS_SUCCESS,
+  ADD_CUSTOMER_FAIL,
+  ADD_CUSTOMER_SUCCESS,
   GET_ORDERS_FAIL,
   GET_ORDERS_SUCCESS,
   GET_ORDERS2_FAIL,
@@ -95,6 +97,18 @@ const Ecommerce = (state = INIT_STATE, action) => {
       }
 
     case GET_CUSTOMERS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case ADD_CUSTOMER_SUCCESS:
+      return {
+        ...state,
+        customers: [...state.customers, action.payload],
+      }
+
+    case ADD_CUSTOMER_FAIL:
       return {
         ...state,
         error: action.payload,

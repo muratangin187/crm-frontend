@@ -14,6 +14,9 @@ import {
   GET_CUSTOMERS,
   GET_CUSTOMERS_FAIL,
   GET_CUSTOMERS_SUCCESS,
+  ADD_NEW_CUSTOMER,
+  ADD_CUSTOMER_FAIL,
+  ADD_CUSTOMER_SUCCESS,
   GET_SHOPS,
   GET_SHOPS_FAIL,
   GET_SHOPS_SUCCESS,
@@ -106,6 +109,21 @@ export const getCustomersFail = error => ({
   type: GET_CUSTOMERS_FAIL,
   payload: error,
 })
+
+export const addNewCustomer = customer => ({
+  type: ADD_NEW_CUSTOMER,
+  payload: customer,
+});
+
+export const addCustomerSuccess = customer => ({
+  type: ADD_CUSTOMER_SUCCESS,
+  payload: customer,
+});
+
+export const addCustomerFail = error => ({
+  type: ADD_CUSTOMER_FAIL,
+  payload: error,
+});
 
 export const getShops = () => ({
   type: GET_SHOPS,

@@ -101,6 +101,8 @@ export const getCartData = () => get(url.GET_CART_DATA)
 // get customers
 export const getCustomers = () => get(url.GET_CUSTOMERS)
 
+export const addNewCustomer = customer => post(url.ADD_NEW_CUSTOMER, customer)
+
 // get shops
 export const getShops = () => get(url.GET_SHOPS)
 

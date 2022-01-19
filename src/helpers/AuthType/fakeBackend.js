@@ -204,7 +204,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       // myAxios.get("log-items").then(data => {
       //   const lastData = data.data.data.map(a => ({
-      //       cid: a.id,
+      //       id: a.id,
       //       name: a.attributes.description,
       //       surname: a.attributes.description,
       //       employeeID: "325-250-1106",
@@ -229,6 +229,24 @@ const fakeBackend = () => {
       })
     })
   })
+
+  mock.onPost(url.ADD_NEW_CUSTOMER).reply(customer => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (customer && customer.data) {
+          const json = JSON.parse(customer.data);
+          if(!json.id) json.id = customerData.length+1;
+          const result = JSON.stringify(json);
+          console.log(result);
+          // Passing fake JSON data as response
+          resolve([200, result])
+        } else {
+          reject([400, "Cannot add event"])
+        }
+      })
+    })
+  });
+
 
   mock.onGet(url.GET_SHOPS).reply(() => {
     return new Promise((resolve, reject) => {

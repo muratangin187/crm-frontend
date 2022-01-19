@@ -9,12 +9,15 @@ import {
   GET_PRODUCT_DETAIL,
   GET_PRODUCTS,
   GET_SHOPS,
+  ADD_NEW_CUSTOMER
 } from "./actionTypes"
 import {
   getCartDataFail,
   getCartDataSuccess,
   getCustomersFail,
   getCustomersSuccess,
+  addCustomerFail,
+  addCustomerSuccess,
   getOrdersFail,
   getOrdersSuccess,
   getOrders2Fail,
@@ -31,6 +34,7 @@ import {
 import {
   getCartData,
   getCustomers,
+  addNewCustomer,
   getOrders,
   getOrders2,
   getProducts,
@@ -92,6 +96,15 @@ function* fetchCustomers() {
   }
 }
 
+function* onAddNewCustomer({ payload: customer }) {
+  try {
+    const response = yield call(addNewCustomer, customer)
+    yield put(addCustomerSuccess(response))
+  } catch (error) {
+    yield put(addCustomerFail(error))
+  }
+}
+
 function* fetchShops() {
   try {
     const response = yield call(getShops)
@@ -104,6 +117,7 @@ function* fetchShops() {
 function* ecommerceSaga() {
   yield takeEvery(GET_PRODUCTS, fetchProducts)
   yield takeEvery(GET_PRODUCT_DETAIL, fetchProductDetail)
+  yield takeEvery(ADD_NEW_CUSTOMER, onAddNewCustomer)
   yield takeEvery(GET_ORDERS, fetchOrders)
   yield takeEvery(GET_ORDERS2, fetchOrders2)
   yield takeEvery(GET_CART_DATA, fetchCartData)

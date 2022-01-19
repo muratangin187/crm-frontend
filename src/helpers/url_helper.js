@@ -24,6 +24,7 @@ export const DELETE_ORDER = "/delete/order"
 
 //CUSTOMERS
 export const GET_CUSTOMERS = "/customers"
+export const ADD_NEW_CUSTOMER = "/add/customers"
 
 //CHATS
 export const GET_CHATS = "/chats"

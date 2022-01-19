@@ -4,7 +4,7 @@ import { Button } from "reactstrap"
 
 const EcommerceCustomerColumns = () => [
   {
-    dataField: "cid",
+    dataField: "id",
     text: "ID",
     sort: true,
   },

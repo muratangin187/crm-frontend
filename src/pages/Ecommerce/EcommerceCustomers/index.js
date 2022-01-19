@@ -2,8 +2,9 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { isEmpty, size } from "lodash"
-import { Button, Card, CardBody, Col, Container, Row, Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap"
+import { Button, Card, CardBody, Col, Container, Row, Modal, ModalBody, ModalHeader, ModalFooter, Label, Input } from "reactstrap"
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
+import Select from "react-select";
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory, {
   PaginationListStandalone,
@@ -17,8 +18,30 @@ import Breadcrumbs from "../../../components/Common/Breadcrumb"
 import EcommerceCustomerColumns from "./EcommerceCustomerColumns"
 
 import {
-  getCustomers
+  getCustomers, addNewCustomer
 } from "../../../store/e-commerce/actions"
+
+const statusOptions = [
+	{
+		label: "Statüler",
+		options: [
+			{ key: 1, label: "Takip", value: "Takip" },
+			{ key: 2, label: "Yakın Takip", value: "Yakın Takip" },
+			{ key: 3, label: "İlgisiz", value: "İlgisiz" }
+		]
+	},
+];
+
+const employeeOptions = [
+	{
+		label: "Temsilciler",
+		options: [
+			{ key: 1, label: "Duygu Yılmaz", value: "Duygu Yılmaz" },
+			{ key: 2, label: "Ahmet Voral", value: "Ahmet Voral" },
+			{ key: 3, label: "Mehmet Uslu", value: "Mehmet Uslu" }
+		]
+	},
+];
 
 class EcommerceCustomers extends Component {
   constructor(props) {
@@ -28,12 +51,34 @@ class EcommerceCustomers extends Component {
       breadcrumbItems: [
           { title : "Ecommerce", link : "#" },
           { title : "Customer", link : "#" }
-      ]
+      ],
+      newCustomer: {
+        name: null,
+        surname: null,
+        countryNo: null,
+        phone: null,
+        email: null,
+        nationalID: null,
+        dataSource: null,
+        employeeID: null,
+        trackStatus: null,
+        // name: "DENEME",
+        // surname: "AHMET",
+        // countryNo: 91,
+        // phone: 5555555555,
+        // email: "deneme@example.com",
+        // nationalID: 1112312312,
+        // dataSource: "MYKAYNAK",
+        // employeeID: "Duygu Dündar",
+        // trackStatus: "Yakın Takip",
+      },
+      toggleSwitch: false
     }
     this.handleCustomerClick = this.handleCustomerClick.bind(this)
     this.toggle = this.toggle.bind(this)
     this.handleValidCustomerSubmit = this.handleValidCustomerSubmit.bind(this)
     this.handleCustomerClicks = this.handleCustomerClicks.bind(this)
+		this.handleSelectStatus = this.handleSelectStatus.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +108,42 @@ class EcommerceCustomers extends Component {
     this.toggle()
   }
 
+	handleNameChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, name: val.target.value } });
+	};
+
+	handleSurnameChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, surname: val.target.value } });
+	};
+
+	handlePhoneChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, phone: val.target.value } });
+	};
+
+	handleCountryNoChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, countryNo: val.target.value } });
+	};
+
+	handleEmailChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, email: val.target.value } });
+	};
+
+	handleNationalIDChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, nationalID: val.target.value } });
+	};
+
+	handleDataSourceChange = val => {
+		this.setState({ newCustomer: {...this.state.newCustomer, dataSource: val.target.value } });
+	};
+
+	handleSelectStatus = selectedStatus => {
+		this.setState({ newCustomer: {...this.state.newCustomer, trackStatus: selectedStatus } });
+	};
+
+	handleSelectEmployee = selectedEmployee => {
+		this.setState({ newCustomer: {...this.state.newCustomer, employeeID: selectedEmployee } });
+	};
+
   /* Insert,Update Delete data */
 
   handleDeleteCustomer = (customer) => {
@@ -90,23 +171,40 @@ class EcommerceCustomers extends Component {
     this.toggle()
   }
 
+  handleSubmit = (e) => {
+    const { onAddNewCustomer } = this.props
+    console.log(this.state.newCustomer);
+    const result = {
+      id: this.state.customers.length,
+      name: this.state.newCustomer.name,
+      surname: this.state.newCustomer.surname,
+      employeeID: this.state.newCustomer.employeeID,
+      status: this.state.newCustomer.trackStatus,
+      dataSource: this.state.newCustomer.dataSource,
+      lastNoteDate: "-",
+      lastNote: "-",
+    };
+    onAddNewCustomer(result);
+    this.toggle();
+  }
+
   /**
    * Handling submit Customer on Customer form
    */
-  handleValidCustomerSubmit = (e, values) => {
+  handleValidCustomerSubmit = (e, val) => {
     const { onAddNewCustomer, onUpdateCustomer } = this.props
     const { isEdit, customers } = this.state
 
     if (isEdit) {
       const updateCustomer = {
         id: customers.id,
-        username: values.username,
-        phone: values.phone,
-        email: values.email,
-        address: values.address,
-        rating: values.rating,
-        walletBalance: values.walletBalance,
-        joiningDate: values.joiningDate,
+        username: val.target.valueues.username,
+        phone: val.target.valueues.phone,
+        email: val.target.valueues.email,
+        address: val.target.valueues.address,
+        rating: val.target.valueues.rating,
+        walletBalance: val.target.valueues.walletBalance,
+        joiningDate: val.target.valueues.joiningDate,
       }
 
       // update Customer
@@ -115,13 +213,13 @@ class EcommerceCustomers extends Component {
 
       const newCustomer = {
         id: Math.floor(Math.random() * (30 - 20)) + 20,
-        username: values["username"],
-        phone: values["phone"],
-        email: values["email"],
-        address: values["address"],
-        rating: values["rating"],
-        walletBalance: values["walletBalance"],
-        joiningDate: values["joiningDate"],
+        username: val.target.valueues["username"],
+        phone: val.target.valueues["phone"],
+        email: val.target.valueues["email"],
+        address: val.target.valueues["address"],
+        rating: val.target.valueues["rating"],
+        walletBalance: val.target.valueues["walletBalance"],
+        joiningDate: val.target.valueues["joiningDate"],
       }
       // save new Customer
       onAddNewCustomer(newCustomer)
@@ -165,53 +263,164 @@ class EcommerceCustomers extends Component {
 
         <div className="page-content">
           <Modal
+            size="xl"
             isOpen={this.state.modal}
             toggle={this.toggle}
           >
-            <ModalHeader toggle={() => this.setState({ modal_standard: false })}>
-                Modal Heading
+            <ModalHeader toggle={this.toggle}>
+                Yeni müşteri ekle
             </ModalHeader>
             <ModalBody>
-              <h5>Overflowing text to show scroll behavior</h5>
-              <p>
-                Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas
-                eget quam. Morbi leo risus, porta ac consectetur ac,
-                vestibulum at eros.
-            </p>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl
-                consectetur et. Vivamus sagittis lacus vel augue
-                laoreet rutrum faucibus dolor auctor.
-            </p>
-              <p>
-                Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl
-                consectetur et. Donec sed odio dui. Donec
-                ullamcorper nulla non metus auctor fringilla.
-            </p>
-              <p>
-                Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas
-                eget quam. Morbi leo risus, porta ac consectetur ac,
-                vestibulum at eros.
-            </p>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl
-                consectetur et. Vivamus sagittis lacus vel augue
-                laoreet rutrum faucibus dolor auctor.
-            </p>
-              <p>
-                Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl
-                consectetur et. Donec sed odio dui. Donec
-                ullamcorper nulla non metus auctor fringilla.
-            </p>
+              <Card>
+                <CardBody>
+                    <h4 className="card-title">Müşteri bilgileri</h4>
+                    <Row className="mb-3">
+                        <Label htmlFor="example-text-input" className="col-md-2 col-form-label">İsim</Label>
+                        <Col md={10}>
+                            <Input type="text" placeholder="Ali" id="example-text-input" value={this.state.newCustomer.name} onChange={this.handleNameChange}/>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Soyisim</Label>
+                        <Col md={10}>
+                            <Input type="text" placeholder="Yılmaz" id="example-text-input"  value={this.state.newCustomer.surname} onChange={this.handleSurnameChange}/>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                      <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Telefon</Label>
+                      <Col md={3}>
+                            <Input type="number" placeholder="90" id="example-text-input" className="cold-md-0" value={this.state.newCustomer.countryNo} onChange={this.handleCountryNoChange}/>
+                      </Col>
+                      <Col md={7}>
+                        <Input type="number" placeholder="5361231212" id="example-text-input" className="cold-md-0" value={this.state.newCustomer.phone} onChange={this.handlePhoneChange}/>
+                      </Col>
+                    </Row>
+                    <Row className="mb-3">
+                      <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Email</Label>
+                      <Col md={10}>
+                        <Input type="email" placeholder="example@example.com" id="example-text-input"  value={this.state.newCustomer.email} onChange={this.handleEmailChange}/>
+                      </Col>
+                    </Row>
+                    <Row className="mb-3">
+                      <Label htmlFor="example-text-input" className="col-md-2 col-form-label">TC Kimlik</Label>
+                      <Col md={10}>
+                            <Input type="number" placeholder="12312123212" id="example-text-input" className="cold-md-0" value={this.state.newCustomer.nationalID} onChange={this.handleNationalIDChange}/>
+                      </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Kaynak</Label>
+                        <Col md={10}>
+                            <Input type="text" placeholder="Kaynak" id="example-text-input"  value={this.state.newCustomer.dataSource} onChange={this.handleDataSourceChange}/>
+                        </Col>
+                    </Row>
+                    {/* <Row className="mb-3">
+                        <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Eklenme Tarihi</Label>
+                        <Col md={10}>
+                            <Flatpickr
+                              className="form-control d-block"
+                              placeholder="dd M,yyyy"
+                              options={{
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                              }}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                      <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Adres</Label>
+											<Input
+												type="textarea"
+												id="textarea"
+												onChange={this.textareachange}
+												maxLength="225"
+												rows="3"
+												placeholder="Adres tarifi"
+											/>
+                    </Row>
+                    <Row className="mb-3">
+												<Label className="form-label">Kayıtlı Şube</Label>
+                        <Col md={10}>
+                          <Select
+                            val.target.valueue={this.state.selectedGroup}
+                            onChange={this.handleSelectGroup}
+                            options={optionGroup}
+                          />
+                        </Col>
+                    </Row> */}
+                    <Row className="mb-3">
+												<Label className="form-label">Müşteri Temsilcisi</Label>
+                        <Select
+                          value={this.state.selectedEmployee}
+                          onChange={this.handleSelectEmployee}
+                          options={employeeOptions}
+                        />
+                    </Row>
+                    {/* <Row className="mb-3">
+                        <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Temsilci Atanma Tarihi</Label>
+                        <Col md={10}>
+                            <Flatpickr
+                              className="form-control d-block"
+                              placeholder="dd M,yyyy"
+                              options={{
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                              }}
+                            />
+                        </Col>
+                    </Row> */}
+                    {/* <Row className="mb-3">
+												<Label className="form-label">Müşteri Statüsü</Label>
+                        <Col md={10}>
+                          <Select
+                            val.target.valueue={this.state.selectedGroup}
+                            onChange={this.handleSelectGroup}
+                            options={optionGroup}
+                          />
+                        </Col>
+                    </Row> */}
+                    <Row className="mb-3">
+												<Label className="form-label">Müşteri Takip Statüsü</Label>
+                        <Select
+                          value={this.state.selectedStatus}
+                          onChange={this.handleSelectStatus}
+                          options={statusOptions}
+                        />
+                    </Row>
+                    {/* <Row>
+                      <div className="form-check form-switch mb-3" dir="ltr">
+                          <Input type="checkbox" className="form-check-input" id="customSwitch1" defaultChecked />
+                          <Label className="form-check-label" htmlFor="customSwitch1" onClick={(e) => { this.setState({ toggleSwitch: !this.state.toggleSwitch }) }}>Hatırlatıcı</Label>
+                      </div>
+                    </Row>
+                    <Row className="mb-3">
+                        <Label htmlFor="example-text-input" className="col-md-2 col-form-label">Hatirlatici Tarihi</Label>
+                        <Col md={10}>
+                            <Flatpickr
+                              className="form-control d-block"
+                              placeholder="dd M,yyyy"
+                              options={{
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                              }}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                      <Label htmlFor="example-time-input" className="col-md-2 col-form-label">Time</Label>
+                      <Col md={10}>
+                          <Input type="time" defaultValue="13:45:00" id="example-time-input" />
+                      </Col>
+                    </Row> */}
+                </CardBody>
+              </Card>
             </ModalBody>
             <ModalFooter>
               <Button
                 type="button"
-                onClick={this.tog_standard}
+                onClick={this.toggle}
                 color="light"
                 className="waves-effect"
               >
@@ -220,6 +429,7 @@ class EcommerceCustomers extends Component {
               <Button
                 type="button"
                 color="primary" className="waves-effect waves-light"
+                onClick={this.handleSubmit}
               >
                 Save changes
             </Button>
@@ -234,7 +444,7 @@ class EcommerceCustomers extends Component {
                   <CardBody>
                     <PaginationProvider
                       pagination={paginationFactory(pageOptions)}
-                      keyField='cid'
+                      keyField='id'
                       data={customers}
                     >
                       {({ paginationProps, paginationTableProps }) => (
@@ -263,7 +473,6 @@ class EcommerceCustomers extends Component {
                                       type="button"
                                       color="primary"
                                       className="btn-rounded mb-2 me-2"
-                                      onClick={this.handleCustomerClicks}
                                     >
                                       <i className="mdi mdi-plus me-1" />{" "}
                                       Filter 
@@ -321,7 +530,8 @@ class EcommerceCustomers extends Component {
 
 EcommerceCustomers.propTypes = {
   customers: PropTypes.array,
-  onGetCustomers: PropTypes.func
+  onGetCustomers: PropTypes.func,
+  onAddNewCustomer: PropTypes.func
 }
 
 const mapStateToProps = ({ Ecommerce }) => ({
@@ -329,7 +539,8 @@ const mapStateToProps = ({ Ecommerce }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onGetCustomers: () => dispatch(getCustomers())
+  onGetCustomers: () => dispatch(getCustomers()),
+  onAddNewCustomer: customer => dispatch(addNewCustomer(customer))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EcommerceCustomers)
