@@ -34,7 +34,7 @@ const EcommerceCustomerColumns = () => [
           color="success"
           className="btn-rounded mb-2 me-2"
         >
-          New Customers
+          {t}
         </Button>
       );
     }

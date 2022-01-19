@@ -19,6 +19,7 @@ const INIT_STATE = {
   products: [],
   product: {},
   orders: [],
+  orders2: [],
   cartData: {},
   customers: [],
   shops: [],

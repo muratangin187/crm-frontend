@@ -202,27 +202,27 @@ const fakeBackend = () => {
 
   mock.onGet(url.GET_CUSTOMERS).reply(() => {
     return new Promise((resolve, reject) => {
-      myAxios.get("log-items").then(data => {
-        const lastData = data.data.data.map(a => ({
-            cid: a.id,
-            name: a.attributes.description,
-            surname: a.attributes.description,
-            employeeID: "325-250-1106",
-            status: "StephenRash@teleworm.us",
-            dataSource: a.attributes.description,
-            lastNoteDate: "4.2",
-            lastNote: "$5412",
-          }));
-          console.log(lastData);
-          console.log(data.data.data[0]);
-          resolve([200, lastData]);
-      }).catch(err => {
-        console.log(err);
-      });
+      // myAxios.get("log-items").then(data => {
+      //   const lastData = data.data.data.map(a => ({
+      //       cid: a.id,
+      //       name: a.attributes.description,
+      //       surname: a.attributes.description,
+      //       employeeID: "325-250-1106",
+      //       status: "StephenRash@teleworm.us",
+      //       dataSource: a.attributes.description,
+      //       lastNoteDate: "4.2",
+      //       lastNote: "$5412",
+      //     }));
+      //     console.log(lastData);
+      //     console.log(data.data.data[0]);
+      //     resolve([200, lastData]);
+      // }).catch(err => {
+      //   console.log(err);
+      // });
       setTimeout(() => {
         if (customerData) {
           // Passing fake JSON data as response
-          //resolve([200, customerData])
+          resolve([200, customerData])
         } else {
           reject([400, "Cannot get customers data"])
         }

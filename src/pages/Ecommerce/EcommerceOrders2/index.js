@@ -207,7 +207,7 @@ class EcommerceOrders2 extends Component {
                     >
                       {({ paginationProps, paginationTableProps }) => (
                         <ToolkitProvider
-                          keyField="did"
+                          keyField="bid"
                           data={orders2}
                           columns={EcommerceOrderColumns()}
                           bootstrap4
