@@ -137,11 +137,11 @@ class EcommerceCustomers extends Component {
 	};
 
 	handleSelectStatus = selectedStatus => {
-		this.setState({ newCustomer: {...this.state.newCustomer, trackStatus: selectedStatus } });
+		this.setState({ newCustomer: {...this.state.newCustomer, trackStatus: selectedStatus.value } });
 	};
 
 	handleSelectEmployee = selectedEmployee => {
-		this.setState({ newCustomer: {...this.state.newCustomer, employeeID: selectedEmployee } });
+		this.setState({ newCustomer: {...this.state.newCustomer, employeeID: selectedEmployee.value } });
 	};
 
   /* Insert,Update Delete data */
