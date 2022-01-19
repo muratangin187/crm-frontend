@@ -122,9 +122,9 @@ class SidebarContent extends Component {
                             <ul className="sub-menu">
                                 <li><Link to="/ecommerce-products">{this.props.t('Products')}</Link></li>
                                 <li><Link to="/ecommerce-product-detail/1">{this.props.t('Product Detail')}</Link></li>
-                                <li><Link to="/ecommerce-orders">{this.props.t('Orders')}</Link></li>
-                                <li><Link to="/ecommerce-orders2">{this.props.t('Orders2')}</Link></li>
-                                <li><Link to="/ecommerce-customers">{this.props.t('Customers')}</Link></li>
+                                <li><Link to="/ecommerce-orders">{this.props.t('Departman Tanımlamaları')}</Link></li>
+                                <li><Link to="/ecommerce-orders2">{this.props.t('Şube Tanımlamaları')}</Link></li>
+                                <li><Link to="/ecommerce-customers">{this.props.t('Tüm Müşteriler')}</Link></li>
                                 <li><Link to="/ecommerce-cart">{this.props.t('Cart')}</Link></li>
                                 <li><Link to="/ecommerce-checkout">{this.props.t('Checkout')}</Link></li>
                                 <li><Link to="/ecommerce-shops">{this.props.t('Shops')}</Link></li>
