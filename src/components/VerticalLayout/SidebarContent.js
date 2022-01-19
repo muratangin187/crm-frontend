@@ -100,7 +100,7 @@ class SidebarContent extends Component {
                             </Link>
                         </li>
 
-                        <li>
+                        {/* <li>
                             <Link to="/calendar" className=" waves-effect">
                                 <i className="ri-calendar-2-line"></i>
                                 <span className="ms-1">{this.props.t('Calendar')}</span>
@@ -112,9 +112,12 @@ class SidebarContent extends Component {
                                 <i className="ri-chat-1-line"></i>
                                 <span className="ms-1">{this.props.t('Chat')}</span>
                             </Link>
-                        </li>
+                        </li> */}
+                                <li><Link to="/ecommerce-orders">{this.props.t('Departman Tanımlamaları')}</Link></li>
+                                <li><Link to="/ecommerce-orders2">{this.props.t('Şube Tanımlamaları')}</Link></li>
+                                <li><Link to="/ecommerce-customers">{this.props.t('Tüm Müşteriler')}</Link></li>
 
-                        <li>
+                        {/* <li>
                             <Link to="/#" className="has-arrow waves-effect">
                                 <i className="ri-store-2-line"></i>
                                 <span className="ms-1">{this.props.t('Ecommerce')}</span>
@@ -130,9 +133,9 @@ class SidebarContent extends Component {
                                 <li><Link to="/ecommerce-shops">{this.props.t('Shops')}</Link></li>
                                 <li><Link to="/ecommerce-add-product">{this.props.t('Add Product')}</Link></li>
                             </ul>
-                        </li>
+                        </li> */
 
-                        <li>
+                        /* <li>
                             <Link to="/#" className="has-arrow waves-effect">
                                 <i className="ri-mail-send-line"></i>
                                 <span className="ms-1">{this.props.t('Email')}</span>
@@ -295,7 +298,7 @@ class SidebarContent extends Component {
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
+                        </li> */}
 
                     </ul>
                 </div>
